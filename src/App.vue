@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="w-200 bg-amber-300 text-red-400">hello, world!</div>
+    <div class="container"></div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss"></style>
