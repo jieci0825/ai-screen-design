@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Editor from './editor/index.vue'
+</script>
 
 <template>
-    <div class="container"></div>
+    <div class="container">
+        <Editor />
+    </div>
 </template>
 
 <style scoped lang="scss"></style>
