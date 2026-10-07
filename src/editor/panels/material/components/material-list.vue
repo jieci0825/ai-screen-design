@@ -34,54 +34,54 @@ defineProps<{
     padding: 16px 12px;
     overflow-y: auto;
     background-color: var(--sidebar);
-}
 
-.material-list__title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--sidebar-border);
-    color: var(--sidebar-foreground);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
-    letter-spacing: 0.02em;
-    overflow-wrap: anywhere;
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--sidebar-border);
+        color: var(--sidebar-foreground);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        letter-spacing: 0.02em;
+        overflow-wrap: anywhere;
 
-    &::before {
-        content: '';
-        flex-shrink: 0;
-        width: 3px;
-        height: 14px;
-        border-radius: 2px;
-        background-color: var(--sidebar-primary);
+        &::before {
+            content: '';
+            flex-shrink: 0;
+            width: 3px;
+            height: 14px;
+            border-radius: 2px;
+            background-color: var(--sidebar-primary);
+        }
     }
-}
 
-.material-list__item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background-color: var(--card);
-    color: var(--card-foreground);
-    font-size: 13px;
-    line-height: 20px;
-    overflow-wrap: anywhere;
-    cursor: pointer;
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background-color: var(--card);
+        color: var(--card-foreground);
+        font-size: 13px;
+        line-height: 20px;
+        overflow-wrap: anywhere;
+        cursor: pointer;
 
-    & + & {
-        margin-top: 8px;
+        & + & {
+            margin-top: 8px;
+        }
+
+        &-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
     }
-}
-
-.material-list__item-icon {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
 }
 </style>

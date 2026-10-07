@@ -69,36 +69,33 @@ const { panelVisible } = storeToRefs(useEditorStore())
 </template>
 
 <style scoped lang="scss">
-.editor-panel {
-    width: var(--panel-width);
-    overflow: hidden;
+.editor {
+    &-panel {
+        width: var(--panel-width);
+        overflow: hidden;
 
-    &__content {
-        width: calc(var(--panel-width) - 1px);
-        height: 100%;
-        overflow: auto;
+        &__content {
+            width: calc(var(--panel-width) - 1px);
+            height: 100%;
+            overflow: auto;
+        }
     }
 }
 
-.panel-enter-active,
-.panel-leave-active {
-    transition:
-        width 240ms ease,
-        opacity 240ms ease,
-        border-width 240ms ease;
-}
+.panel {
+    &-enter-active,
+    &-leave-active {
+        transition:
+            width 240ms ease,
+            opacity 240ms ease,
+            border-width 240ms ease;
+    }
 
-.panel-enter-from,
-.panel-leave-to {
-    width: 0;
-    opacity: 0;
-    border-width: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .panel-enter-active,
-    .panel-leave-active {
-        transition: none;
+    &-enter-from,
+    &-leave-to {
+        width: 0;
+        opacity: 0;
+        border-width: 0;
     }
 }
 </style>
