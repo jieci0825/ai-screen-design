@@ -1,7 +1,12 @@
 <script setup lang="ts" name="ScreenEditor">
+import { storeToRefs } from 'pinia'
+import { useEditorStore } from '@/stores/editor'
 import ToolbarLeft from './toolbar/toolbar-left.vue'
 import ToolbarCenter from './toolbar/toolbar-center.vue'
 import ToolbarRight from './toolbar/toolbar-right.vue'
+import Material from './panels/material/index.vue'
+
+const { panelVisible } = storeToRefs(useEditorStore())
 </script>
 
 <template>
@@ -17,17 +22,83 @@ import ToolbarRight from './toolbar/toolbar-right.vue'
                 <ToolbarRight />
             </div>
         </header>
-        <main class="editor-main flex flex-1">
+        <main class="editor-main flex flex-1 min-h-0 overflow-hidden">
             <!-- 物料 -->
-            <aside class="material w-60 shrink-0 border-r border-border"></aside>
+            <Transition name="panel">
+                <aside
+                    v-show="panelVisible.material"
+                    id="editor-material"
+                    class="editor-panel material shrink-0 border-r border-border"
+                    style="--panel-width: 15rem"
+                    aria-label="物料"
+                    :inert="!panelVisible.material"
+                >
+                    <Material />
+                </aside>
+            </Transition>
             <!-- 图层 -->
-            <aside class="layer w-40 shrink-0 border-r border-border"></aside>
+            <Transition name="panel">
+                <aside
+                    v-show="panelVisible.layer"
+                    id="editor-layer"
+                    class="editor-panel layer shrink-0 border-r border-border"
+                    style="--panel-width: 10rem"
+                    aria-label="图层"
+                    :inert="!panelVisible.layer"
+                >
+                    <div class="editor-panel__content">图层</div>
+                </aside>
+            </Transition>
             <!-- 画布 -->
-            <div class="canvas flex-1"></div>
+            <div class="canvas flex-1 min-w-0">画布</div>
             <!-- 属性 -->
-            <aside class="property w-75 shrink-0 border-l border-border"></aside>
+            <Transition name="panel">
+                <aside
+                    v-show="panelVisible.property"
+                    id="editor-property"
+                    class="editor-panel property shrink-0 border-l border-border"
+                    style="--panel-width: 18.75rem"
+                    aria-label="属性"
+                    :inert="!panelVisible.property"
+                >
+                    <div class="editor-panel__content">属性</div>
+                </aside>
+            </Transition>
         </main>
     </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.editor-panel {
+    width: var(--panel-width);
+    overflow: hidden;
+
+    &__content {
+        width: calc(var(--panel-width) - 1px);
+        height: 100%;
+        overflow: auto;
+    }
+}
+
+.panel-enter-active,
+.panel-leave-active {
+    transition:
+        width 240ms ease,
+        opacity 240ms ease,
+        border-width 240ms ease;
+}
+
+.panel-enter-from,
+.panel-leave-to {
+    width: 0;
+    opacity: 0;
+    border-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .panel-enter-active,
+    .panel-leave-active {
+        transition: none;
+    }
+}
+</style>

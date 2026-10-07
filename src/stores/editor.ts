@@ -7,4 +7,8 @@ export const useEditorStore = defineStore('editor', () => {
         layer: true,
         property: true,
     })
+
+    return {
+        panelVisible,
+    }
 })
