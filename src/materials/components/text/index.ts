@@ -10,8 +10,8 @@ const textMaterial: MaterialDefinition = {
         type: 'text',
         name: '文本',
         layout: {
-            x: 0,
-            y: 0,
+            x: 50,
+            y: 100,
             w: 120,
             h: 35,
         },

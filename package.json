@@ -27,7 +27,8 @@
         "tailwindcss": "^4.3.3",
         "uuid": "^14.0.2",
         "vue": "^3.5.42",
-        "vue-router": "^5.3.1"
+        "vue-router": "^5.3.1",
+        "vue3-moveable": "^0.28.0"
     },
     "devDependencies": {
         "@iconify/vue": "^5.0.3",

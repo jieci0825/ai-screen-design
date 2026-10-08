@@ -9,7 +9,7 @@ const { schema } = defineProps<Props>()
 
 <template>
     <div
-        class="text"
+        class="text w-full h-full flex justify-center items-center"
         :style="schema.style"
     >
         {{ schema.props.content }}
