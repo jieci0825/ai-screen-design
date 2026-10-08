@@ -5,12 +5,14 @@ import ToolbarLeft from './toolbar/toolbar-left.vue'
 import ToolbarCenter from './toolbar/toolbar-center.vue'
 import ToolbarRight from './toolbar/toolbar-right.vue'
 import Material from './panels/material/index.vue'
+import Layer from './panels/layer/index.vue'
+import CanvasRoot from './canvas/index.vue'
 
 const { panelVisible } = storeToRefs(useEditorStore())
 </script>
 
 <template>
-    <div class="editor h-screen w-screen flex flex-col">
+    <div class="editor h-screen w-screen flex flex-col select-none">
         <header class="editor-header flex items-center h-15 shrink-0 w-full border-b border-border p-3">
             <div class="toolbar-left w-75 h-full">
                 <ToolbarLeft />
@@ -46,11 +48,11 @@ const { panelVisible } = storeToRefs(useEditorStore())
                     aria-label="图层"
                     :inert="!panelVisible.layer"
                 >
-                    <div class="editor-panel__content">图层</div>
+                    <Layer />
                 </aside>
             </Transition>
             <!-- 画布 -->
-            <div class="canvas flex-1 min-w-0">画布</div>
+            <CanvasRoot />
             <!-- 属性 -->
             <Transition name="panel">
                 <aside
@@ -82,6 +84,7 @@ const { panelVisible } = storeToRefs(useEditorStore())
     }
 }
 
+// 动画
 .panel {
     &-enter-active,
     &-leave-active {

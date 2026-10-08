@@ -6,7 +6,7 @@ export interface MaterialCategory {
     readonly icon: string
 }
 
-interface Layout {
+export interface Layout {
     x: number
     y: number
     w: number
@@ -14,6 +14,7 @@ interface Layout {
 }
 
 export interface MaterialSchema {
+    id: string
     type: string
     name: string
     layout: Layout
@@ -29,7 +30,7 @@ export interface MaterialDefinition {
     readonly category: MaterialCategoryType
 
     // 物料 schema(DSL)
-    readonly schema: MaterialSchema
+    readonly schema: Omit<MaterialSchema, 'id'>
 }
 
 export interface MaterialContext {

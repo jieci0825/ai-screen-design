@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import type { MaterialDefinition } from '@/materials'
+import type { MaterialDefinition, MaterialSchema } from '@/materials'
 
 defineProps<{
     title: string
     materials: readonly MaterialDefinition[]
 }>()
+
+const handleDragStart = (e: DragEvent, m: MaterialDefinition) => {
+    e.dataTransfer.setData('schema', JSON.stringify(m))
+}
 </script>
 
 <template>
@@ -17,6 +21,8 @@ defineProps<{
             class="material-list__item"
             v-for="m in materials"
             :key="m.key"
+            draggable="true"
+            @dragstart="handleDragStart($event, m)"
         >
             <Icon
                 :icon="m.icon"

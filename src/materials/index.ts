@@ -6,14 +6,6 @@ import type {
     MaterialPlugin,
 } from './types'
 
-export type {
-    MaterialCategory,
-    MaterialCategoryType,
-    MaterialContext,
-    MaterialDefinition,
-    MaterialPlugin,
-} from './types'
-
 const categories: readonly MaterialCategory[] = [
     { type: 'chart', name: '图表', icon: 'basil:chart-pie-outline' },
     { type: 'info', name: '信息', icon: 'ant-design:info-circle-outlined' },
@@ -56,3 +48,5 @@ export function getMaterialsByCategory(type: MaterialCategoryType): readonly Mat
         return material.category === type
     })
 }
+
+export type * from './types'

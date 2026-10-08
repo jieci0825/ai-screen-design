@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="layer-panel"></div>
+    <div class="layer-panel">layer</div>
 </template>
 
 <style scoped lang="scss"></style>
