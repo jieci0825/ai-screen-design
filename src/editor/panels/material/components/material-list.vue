@@ -8,7 +8,7 @@ defineProps<{
 }>()
 
 const handleDragStart = (e: DragEvent, m: MaterialDefinition) => {
-    e.dataTransfer.setData('schema', JSON.stringify(m))
+    e.dataTransfer.setData('schema', JSON.stringify(m.schema))
 }
 </script>
 

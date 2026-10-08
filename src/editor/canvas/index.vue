@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { randomUtils } from '@/utils'
-import type { MaterialSchema } from '@/materials'
+import { createMaterialNode, getMaterialComponent, type MaterialSchema } from '@/materials'
 
 const nodes = ref<MaterialSchema[]>([])
 
 /** 元素拖拽到画布时触发 */
 const onDrop = (e: DragEvent) => {
-    const data = JSON.parse(e.dataTransfer.getData('schema'))
-
-    if (!data) return
-
-    data.id = randomUtils.generateUUID()
-    nodes.value.push(data)
+    const schema = JSON.parse(e.dataTransfer.getData('schema'))
+    if (!schema) return
+    const node = createMaterialNode(schema)
+    nodes.value.push(node)
 }
 </script>
 
@@ -25,10 +22,13 @@ const onDrop = (e: DragEvent) => {
             @drop="onDrop"
         >
             <div
-                v-for="n in nodes"
-                :key="n.id"
+                v-for="item in nodes"
+                :key="item.id"
             >
-                {{ n.name }}
+                <Component
+                    :is="getMaterialComponent(item.type)"
+                    :schema="item"
+                />
             </div>
         </div>
     </div>

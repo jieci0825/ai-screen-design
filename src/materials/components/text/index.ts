@@ -1,3 +1,4 @@
+import TextMaterialComp from './component.vue'
 import type { MaterialPlugin, MaterialDefinition } from '../../types'
 
 const textMaterial: MaterialDefinition = {
@@ -15,16 +16,17 @@ const textMaterial: MaterialDefinition = {
             h: 35,
         },
         props: {
-            text: '一段文本',
+            content: '一段普通文本',
         },
         style: {
             fontSize: '14px',
+            color: 'red',
         },
     },
 }
 
 export default {
     install(context) {
-        context.register(textMaterial)
+        context.register(textMaterial, TextMaterialComp)
     },
 } satisfies MaterialPlugin

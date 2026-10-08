@@ -1,3 +1,4 @@
+import type { Component, CSSProperties } from 'vue'
 export type MaterialCategoryType = 'chart' | 'info'
 
 export interface MaterialCategory {
@@ -19,7 +20,11 @@ export interface MaterialSchema {
     name: string
     layout: Layout
     props?: Record<string, any>
-    style?: Partial<CSSStyleDeclaration>
+    style?: CSSProperties
+}
+
+export interface MaterialNode {
+    id: string
 }
 
 export interface MaterialDefinition {
@@ -34,7 +39,7 @@ export interface MaterialDefinition {
 }
 
 export interface MaterialContext {
-    register: (material: MaterialDefinition) => void
+    register: (material: MaterialDefinition, component: Component) => void
 }
 
 export interface MaterialPlugin {

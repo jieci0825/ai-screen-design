@@ -1,25 +1,32 @@
+import { randomUtils } from '@/utils'
 import type {
     MaterialCategory,
     MaterialCategoryType,
     MaterialContext,
     MaterialDefinition,
     MaterialPlugin,
+    MaterialSchema,
 } from './types'
+import type { Component } from 'vue'
 
 const categories: readonly MaterialCategory[] = [
     { type: 'chart', name: '图表', icon: 'basil:chart-pie-outline' },
     { type: 'info', name: '信息', icon: 'ant-design:info-circle-outlined' },
 ]
 
+// 存储所有物料定义的注册表
 const registry = new Map<string, MaterialDefinition>()
+// 存储物料组件
+const componentRegistry = new Map<string, Component>()
 
 const context: MaterialContext = {
-    register(material) {
+    register(material, component) {
         if (registry.has(material.key)) {
             throw new Error(`物料 key 重复：${material.key}`)
         }
 
         registry.set(material.key, material)
+        componentRegistry.set(material.schema.type, component)
     },
 }
 
@@ -47,6 +54,23 @@ export function getMaterialsByCategory(type: MaterialCategoryType): readonly Mat
     return [...registry.values()].filter((material) => {
         return material.category === type
     })
+}
+
+/**
+ * 获取指定物料的组件
+ */
+export function getMaterialComponent(type: string): Component | undefined {
+    return componentRegistry.get(type)
+}
+
+/**
+ * 创建物料在画布里面的节点
+ */
+export function createMaterialNode(schema: MaterialSchema): MaterialSchema {
+    return {
+        id: randomUtils.generateUUID(),
+        ...schema,
+    }
 }
 
 export type * from './types'
