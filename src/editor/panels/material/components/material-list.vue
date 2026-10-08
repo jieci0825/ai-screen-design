@@ -3,7 +3,7 @@ import { Icon } from '@iconify/vue'
 
 defineProps<{
     title: string
-    materialList: { name: string; key: string; icon: string }[]
+    materials: { name: string; key: string; icon: string }[]
 }>()
 </script>
 
@@ -14,7 +14,7 @@ defineProps<{
         </h2>
         <div
             class="material-list__item"
-            v-for="m in materialList"
+            v-for="m in materials"
             :key="m.key"
         >
             <Icon
