@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { getMaterialsByCategory, getCategorys } from '@/materials'
+import { getMaterialsByCategory, getCategories, type MaterialCategoryType } from '@/materials'
 import CategoryList from './components/category-list.vue'
 import MaterialList from './components/material-list.vue'
 
-// 当前分类类型
-const currentCategoryType = ref('chart')
-// 所有分类
-const categories = getCategorys()
+defineOptions({ name: 'MaterialPanel' })
 
-const selectCategory = (type: string) => {
+// 当前分类类型
+const currentCategoryType = ref<MaterialCategoryType>('chart')
+// 所有分类
+const categories = getCategories()
+
+const selectCategory = (type: MaterialCategoryType) => {
     currentCategoryType.value = type
 }
 

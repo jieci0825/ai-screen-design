@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import type { MaterialCategory, MaterialCategoryType } from '@/materials'
 
 defineProps<{
-    categories: { type: string; name: string; icon: string }[]
-    currentCategoryType: string
+    categories: readonly MaterialCategory[]
+    currentCategoryType: MaterialCategoryType
 }>()
 
 const emit = defineEmits<{
-    select: [type: string]
+    select: [type: MaterialCategoryType]
 }>()
 </script>
 

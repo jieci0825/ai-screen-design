@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import type { MaterialDefinition } from '@/materials'
 
 defineProps<{
     title: string
-    materials: { name: string; key: string; icon: string }[]
+    materials: readonly MaterialDefinition[]
 }>()
 </script>
 
