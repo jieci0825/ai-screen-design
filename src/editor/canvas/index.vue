@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Moveable from 'vue3-moveable'
-import { ref, shallowRef, computed, useTemplateRef } from 'vue'
+import { ref, shallowRef, computed, useTemplateRef, nextTick } from 'vue'
 
 import { createMaterialNode, getMaterialComponent } from '@/materials'
 
@@ -8,6 +8,7 @@ import type { OnDrag, OnResize } from 'vue3-moveable'
 import type { MaterialSchema } from '@/materials'
 
 const canvasRef = useTemplateRef('canvas-ref')
+const moveableRef = useTemplateRef('moveable-ref')
 
 const nodes = ref<MaterialSchema[]>([])
 
@@ -24,6 +25,13 @@ const currentSelectNodeElement = shallowRef<HTMLElement | null>(null)
 const handleSelectNode = (e: MouseEvent, node: MaterialSchema) => {
     currentSelectNodeElement.value = e.currentTarget as HTMLElement
     currentSelectNodeId.value = node.id
+
+    // 等待 Vue 将新选中的节点同步到 Moveable 的 target，再启动拖拽
+    nextTick(() => {
+        // 解决：鼠标按下节点后，立即选中并开始拖动，无需松开再按一次
+        // 第一次按下未选中的节点时，Moveable 的 target 还没切换到它，可能没有接收到这次按下事件。补上 dragStart(e)，就能让同一次鼠标操作完成“选中 + 拖动”
+        moveableRef.value.dragStart(e)
+    })
 }
 
 /** 元素拖拽到画布时触发 */
@@ -97,24 +105,26 @@ const handleCanvasMousedown = () => {
 <template>
     <div class="canvas flex-1 min-w-0 flex flex-col justify-center items-center">
         <!-- 编辑区域 -->
-        <div
-            class="canvas-editor w-[80%] h-[90%] border border-border"
-            ref="canvas-ref"
-            @dragover.prevent
-            @drop="onDrop"
-            @mousedown.self="handleCanvasMousedown"
-        >
+        <div class="canvas-warpper w-[80%] h-[90%] border border-border overflow-hidden">
             <div
-                class="node-wrapper"
-                v-for="node in nodes"
-                :key="node.id"
-                :style="getNodeStyle(node)"
-                @mousedown="handleSelectNode($event, node)"
+                class="canvas-editor w-full h-full"
+                ref="canvas-ref"
+                @dragover.prevent
+                @drop="onDrop"
+                @mousedown.self="handleCanvasMousedown"
             >
-                <Component
-                    :is="getMaterialComponent(node.type)"
-                    :schema="node"
-                />
+                <div
+                    class="node-wrapper"
+                    v-for="node in nodes"
+                    :key="node.id"
+                    :style="getNodeStyle(node)"
+                    @mousedown="handleSelectNode($event, node)"
+                >
+                    <Component
+                        :is="getMaterialComponent(node.type)"
+                        :schema="node"
+                    />
+                </div>
             </div>
         </div>
 
@@ -125,6 +135,7 @@ const handleCanvasMousedown = () => {
         <!-- snapContainer: 指定画布作为边界计算的参照容器 -->
         <!-- bounds: 指定元素允许移动和缩放的范围, position: 'css' 表示按照 CSS 边距的方式解释边界值 -->
         <Moveable
+            ref="moveable-ref"
             :target="currentSelectNodeElement"
             :draggable="true"
             :resizable="true"
