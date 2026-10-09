@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import Moveable from 'vue3-moveable'
 import { ref, shallowRef, computed, useTemplateRef } from 'vue'
-import { createMaterialNode, getMaterialComponent, type MaterialSchema } from '@/materials'
+
+import { createMaterialNode, getMaterialComponent } from '@/materials'
+
+import type { OnDrag, OnResize } from 'vue3-moveable'
+import type { MaterialSchema } from '@/materials'
 
 const canvasRef = useTemplateRef('canvas-ref')
 
@@ -26,6 +30,11 @@ const handleSelectNode = (e: MouseEvent, node: MaterialSchema) => {
 const onDrop = (e: DragEvent) => {
     const schema = JSON.parse(e.dataTransfer.getData('schema'))
     if (!schema) return
+
+    // 保证拖拽项落到画布的时候，初始位置是在鼠标位置
+    schema.layout.x = e.offsetX - schema.layout.w / 2
+    schema.layout.y = e.offsetY - schema.layout.h / 2
+
     const node = createMaterialNode(schema)
     nodes.value.push(node)
 }
@@ -33,28 +42,40 @@ const onDrop = (e: DragEvent) => {
 /**
  * 拖拽移动
  */
-const onDrag = ({ target, transform, top, left }) => {
+const handleDrag = ({ target, transform, translate }: OnDrag) => {
+    const node = currentSelectNode.value
+    if (!node) return
+
+    // ***** 使用的是 transform, 则后续的所有坐标数据都要基于此获取和使用 *****
+    //  - 如果和 left top 混合就会出现错误，因为 transform 的偏移会基于 left top 计算
     target.style.transform = transform
 
-    // 更新节点中的 layout 数据，在保存的时候保证坐标数据的正确
-    currentSelectNode.value.layout.x = left
-    currentSelectNode.value.layout.y = top
+    // 保存完整平移量，包含拖动开始前已有的位置
+    const [translateX, translateY] = translate
+    node.layout.x = translateX
+    node.layout.y = translateY
 }
 
 /**
  * 拖拽缩放（调整宽高）
  */
-const onResize = ({ target, width, height, drag }) => {
+const handleResize = ({ target, width, height, drag }: OnResize) => {
+    const node = currentSelectNode.value
+    if (!node) return
+
     target.style.width = `${width}px`
     target.style.height = `${height}px`
 
     // 更新节点 layout 信息
-    currentSelectNode.value.layout.w = width
-    currentSelectNode.value.layout.h = height
+    node.layout.w = width
+    node.layout.h = height
 
     // 拖动左侧或顶部控制点时，同步更新元素位置
     //  - 如果这里不更新元素位置，就会导致元素只会改变宽高，无法保持另一侧边缘的位置不变，从而出现向左拖拽，元素盒子预计应该往左移动并加宽，实际就会变成，左侧不动，右侧边缘移动
     target.style.transform = drag.transform
+    const [translateX, translateY] = drag.translate
+    node.layout.x = translateX
+    node.layout.y = translateY
 }
 
 /** 将节点布局转换为带像素单位的定位和尺寸样式 */
@@ -62,7 +83,14 @@ const getNodeStyle = (node: MaterialSchema) => {
     return {
         width: `${node.layout.w}px`,
         height: `${node.layout.h}px`,
+        transform: `translate(${node.layout.x}px, ${node.layout.y}px)`,
     }
+}
+
+const handleCanvasMousedown = () => {
+    // 取消节点的选中效果
+    currentSelectNodeId.value = ''
+    currentSelectNodeElement.value = null
 }
 </script>
 
@@ -74,6 +102,7 @@ const getNodeStyle = (node: MaterialSchema) => {
             ref="canvas-ref"
             @dragover.prevent
             @drop="onDrop"
+            @mousedown.self="handleCanvasMousedown"
         >
             <div
                 class="node-wrapper"
@@ -112,8 +141,8 @@ const getNodeStyle = (node: MaterialSchema) => {
                 right: 0,
                 bottom: 0,
             }"
-            @drag="onDrag"
-            @resize="onResize"
+            @drag="handleDrag"
+            @resize="handleResize"
         ></Moveable>
     </div>
 </template>
