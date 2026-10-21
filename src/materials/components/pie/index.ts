@@ -1,10 +1,13 @@
-import type { MaterialPlugin, MaterialDefinition } from '../../types'
+import PieMaterialPreview from './preview.vue'
+
+import type { MaterialPlugin, MaterialDefinition } from '@/materials'
 
 const pieMaterial: MaterialDefinition = {
     name: '饼图',
     key: 'pie',
     icon: 'boxicons:pie-chart-filled',
     category: 'chart',
+    preview: PieMaterialPreview,
     schema: {
         type: 'pie',
         name: '饼图',

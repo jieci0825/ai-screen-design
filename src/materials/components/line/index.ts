@@ -1,10 +1,13 @@
-import type { MaterialPlugin, MaterialDefinition } from '../../types'
+import LineMaterialPreview from './preview.vue'
+
+import type { MaterialPlugin, MaterialDefinition } from '@/materials'
 
 const lineMaterial: MaterialDefinition = {
     name: '折线图',
     key: 'line',
     icon: 'boxicons:chart-sine-filled',
     category: 'chart',
+    preview: LineMaterialPreview,
     schema: {
         type: 'line',
         name: '折线图',

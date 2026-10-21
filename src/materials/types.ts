@@ -33,13 +33,15 @@ export interface MaterialDefinition {
     readonly name: string
     readonly icon: string
     readonly category: MaterialCategoryType
+    // 物料专属的拖拽缩略图，由编辑器提供公共外框
+    readonly preview?: Component
 
     // 物料 schema(DSL)
     readonly schema: Omit<MaterialSchema, 'id'>
 }
 
 export interface MaterialContext {
-    register: (material: MaterialDefinition, component: Component) => void
+    register: (material: MaterialDefinition, component?: Component) => void
 }
 
 export interface MaterialPlugin {

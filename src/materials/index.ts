@@ -26,7 +26,9 @@ const context: MaterialContext = {
         }
 
         registry.set(material.key, material)
-        componentRegistry.set(material.schema.type, component)
+        if (component) {
+            componentRegistry.set(material.schema.type, component)
+        }
     },
 }
 

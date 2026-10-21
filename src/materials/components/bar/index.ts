@@ -1,10 +1,13 @@
-import type { MaterialPlugin, MaterialDefinition } from '../../types'
+import BarMaterialPreview from './preview.vue'
+
+import type { MaterialPlugin, MaterialDefinition } from '@/materials'
 
 const barMaterial: MaterialDefinition = {
     name: '柱状图',
     key: 'bar',
     icon: 'bi:bar-chart-fill',
     category: 'chart',
+    preview: BarMaterialPreview,
     schema: {
         type: 'bar',
         name: '柱状图',

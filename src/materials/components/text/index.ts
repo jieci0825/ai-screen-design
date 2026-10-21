@@ -1,11 +1,14 @@
 import TextMaterialComp from './component.vue'
-import type { MaterialPlugin, MaterialDefinition } from '../../types'
+import TextMaterialPreview from './preview.vue'
+
+import type { MaterialPlugin, MaterialDefinition } from '@/materials'
 
 const textMaterial: MaterialDefinition = {
     name: '文本',
     key: 'text',
     icon: 'ant-design:font-size-outlined',
     category: 'info',
+    preview: TextMaterialPreview,
     schema: {
         type: 'text',
         name: '文本',
