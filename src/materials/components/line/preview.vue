@@ -17,28 +17,28 @@ defineProps<{
     >
         <path
             d="M8 20H152M8 44H152M8 68H152"
-            stroke="#dbeafe"
+            stroke="var(--color-info-subtle)"
             stroke-dasharray="3 4"
         />
         <path
             d="M12 58L40 38L68 46L96 18L124 30L148 10V68H12Z"
-            fill="#dbeafe"
+            fill="var(--color-info-subtle)"
         />
         <path
             d="M8 8V68H152"
-            stroke="#94a3b8"
+            stroke="var(--color-text-secondary)"
             stroke-linecap="round"
         />
         <path
             d="M12 58L40 38L68 46L96 18L124 30L148 10"
-            stroke="#2563eb"
+            stroke="var(--color-info)"
             stroke-width="3"
             stroke-linecap="round"
             stroke-linejoin="round"
         />
         <g
-            fill="white"
-            stroke="#2563eb"
+            fill="var(--color-bg-container)"
+            stroke="var(--color-info)"
             stroke-width="2"
         >
             <circle

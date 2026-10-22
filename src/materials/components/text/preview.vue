@@ -25,7 +25,7 @@ defineProps<{
     overflow: hidden;
 
     .text-preview__sample {
-        color: #2563eb;
+        color: var(--color-info);
         font-size: 32px;
         font-weight: 600;
         line-height: 36px;
@@ -34,8 +34,8 @@ defineProps<{
 
     .text-preview__content {
         overflow: hidden;
-        color: #475569;
-        font-size: 12px;
+        color: var(--color-text-regular);
+        font-size: var(--font-size-sm);
         line-height: 18px;
         text-overflow: ellipsis;
         white-space: nowrap;

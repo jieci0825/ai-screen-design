@@ -2,6 +2,9 @@
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
+        <script>
+            document.documentElement.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches)
+        </script>
         <link
             rel="icon"
             href="/favicon.ico"

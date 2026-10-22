@@ -17,7 +17,7 @@ defineProps<{
     >
         <path
             d="M8 20H152M8 44H152M8 68H152"
-            stroke="#dbeafe"
+            stroke="var(--color-info-subtle)"
             stroke-dasharray="3 4"
         />
         <rect
@@ -26,7 +26,7 @@ defineProps<{
             width="16"
             height="26"
             rx="3"
-            fill="#93c5fd"
+            fill="var(--color-info-200)"
         />
         <rect
             x="45"
@@ -34,7 +34,7 @@ defineProps<{
             width="16"
             height="42"
             rx="3"
-            fill="#60a5fa"
+            fill="var(--color-info-300)"
         />
         <rect
             x="72"
@@ -42,7 +42,7 @@ defineProps<{
             width="16"
             height="34"
             rx="3"
-            fill="#3b82f6"
+            fill="var(--color-info-400)"
         />
         <rect
             x="99"
@@ -50,7 +50,7 @@ defineProps<{
             width="16"
             height="56"
             rx="3"
-            fill="#2563eb"
+            fill="var(--color-info)"
         />
         <rect
             x="126"
@@ -58,11 +58,11 @@ defineProps<{
             width="16"
             height="48"
             rx="3"
-            fill="#60a5fa"
+            fill="var(--color-info-300)"
         />
         <path
             d="M8 8V68H152"
-            stroke="#94a3b8"
+            stroke="var(--color-text-secondary)"
             stroke-linecap="round"
         />
     </svg>

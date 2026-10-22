@@ -16,21 +16,21 @@ defineProps<{
         aria-hidden="true"
     >
         <g
-            stroke="white"
+            stroke="var(--color-bg-container)"
             stroke-width="2"
             stroke-linejoin="round"
         >
             <path
                 d="M54 40V6A34 34 0 0 1 86.34 50.51Z"
-                fill="#2563eb"
+                fill="var(--color-info)"
             />
             <path
                 d="M54 40L86.34 50.51A34 34 0 0 1 34.02 67.51Z"
-                fill="#60a5fa"
+                fill="var(--color-info-300)"
             />
             <path
                 d="M54 40L34.02 67.51A34 34 0 0 1 54 6Z"
-                fill="#bfdbfe"
+                fill="var(--color-info-100)"
             />
         </g>
         <rect
@@ -39,7 +39,7 @@ defineProps<{
             width="7"
             height="7"
             rx="2"
-            fill="#2563eb"
+            fill="var(--color-info)"
         />
         <rect
             x="121"
@@ -47,7 +47,7 @@ defineProps<{
             width="29"
             height="3"
             rx="1.5"
-            fill="#cbd5e1"
+            fill="var(--color-border-base)"
         />
         <rect
             x="108"
@@ -55,7 +55,7 @@ defineProps<{
             width="7"
             height="7"
             rx="2"
-            fill="#60a5fa"
+            fill="var(--color-info-300)"
         />
         <rect
             x="121"
@@ -63,7 +63,7 @@ defineProps<{
             width="23"
             height="3"
             rx="1.5"
-            fill="#cbd5e1"
+            fill="var(--color-border-base)"
         />
         <rect
             x="108"
@@ -71,7 +71,7 @@ defineProps<{
             width="7"
             height="7"
             rx="2"
-            fill="#bfdbfe"
+            fill="var(--color-info-100)"
         />
         <rect
             x="121"
@@ -79,7 +79,7 @@ defineProps<{
             width="26"
             height="3"
             rx="1.5"
-            fill="#cbd5e1"
+            fill="var(--color-border-base)"
         />
     </svg>
 </template>

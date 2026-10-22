@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useEditorStore } from '@/stores/editor'
 import { Icon } from '@iconify/vue'
+
+import { useEditorStore } from '@/stores/editor'
 
 const { panelVisible } = storeToRefs(useEditorStore())
 </script>
 
 <template>
-    <div class="toolbar-right__inner flex items-center gap-3 justify-end">
+    <div class="toolbar-right__inner">
         <button
             type="button"
             aria-label="撤销"
@@ -47,20 +48,43 @@ const { panelVisible } = storeToRefs(useEditorStore())
 
 <style scoped lang="scss">
 .toolbar-right__inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: flex-end;
+
     button {
-        border: 1px solid var(--border);
+        border: 1px solid var(--color-border-base);
         padding: 4px;
-        border-radius: 4px;
+        border-radius: var(--border-radius-small);
         cursor: pointer;
         transition:
             background-color 150ms ease,
             border-color 150ms ease,
             color 150ms ease;
 
-        &.active {
-            border-color: var(--primary);
-            background-color: var(--primary);
-            color: var(--primary-foreground);
+        &:hover {
+            background-color: var(--color-bg-secondary);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-focus-ring);
+            outline-offset: 2px;
+        }
+
+        :deep(svg) {
+            width: 16px;
+            height: 16px;
+        }
+
+        &:where(.active) {
+            border-color: var(--color-primary);
+            background-color: var(--color-primary);
+            color: var(--color-text-on-primary);
+
+            &:hover {
+                background-color: var(--color-primary-hover);
+            }
         }
     }
 }

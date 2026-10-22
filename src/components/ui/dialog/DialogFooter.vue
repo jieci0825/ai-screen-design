@@ -1,31 +1,43 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
 import { DialogClose } from 'reka-ui'
-import { cn } from '@/lib/utils'
+
 import { Button } from '@/components/ui/button'
+
+import type { HTMLAttributes } from 'vue'
 
 const props = withDefaults(
     defineProps<{
         class?: HTMLAttributes['class']
         showCloseButton?: boolean
     }>(),
-    {
-        showCloseButton: false,
-    },
+    { showCloseButton: false },
 )
 </script>
 
 <template>
     <div
         data-slot="dialog-footer"
-        :class="cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', props.class)"
+        :class="['ui-dialog-footer', props.class]"
     >
         <slot />
         <DialogClose
             v-if="showCloseButton"
             as-child
         >
-            <Button variant="outline"> Close </Button>
+            <Button variant="outline">Close</Button>
         </DialogClose>
     </div>
 </template>
+
+<style scoped lang="scss">
+.ui-dialog-footer {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+
+    @media (min-width: 640px) {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+</style>

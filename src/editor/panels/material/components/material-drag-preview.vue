@@ -39,10 +39,10 @@ defineProps<{
     box-sizing: border-box;
     width: 200px;
     padding: 12px;
-    border: 1px solid #93c5fd;
-    border-radius: 10px;
-    background: #fff;
-    color: #0f172a;
+    border: 1px solid var(--color-info-border);
+    border-radius: var(--border-radius-large);
+    background: var(--color-bg-container);
+    color: var(--color-text-primary);
     font-family: inherit;
     user-select: none;
 
@@ -56,7 +56,7 @@ defineProps<{
 
     .material-drag-preview__name {
         overflow: hidden;
-        font-size: 13px;
+        font-size: var(--font-size-base);
         font-weight: 600;
         line-height: 20px;
         text-overflow: ellipsis;
@@ -66,18 +66,18 @@ defineProps<{
     .material-drag-preview__badge {
         flex-shrink: 0;
         padding: 2px 5px;
-        border-radius: 4px;
-        background: #eff6ff;
-        color: #2563eb;
-        font-size: 10px;
+        border-radius: var(--border-radius-small);
+        background: var(--color-info-subtle);
+        color: var(--color-info);
+        font-size: var(--font-size-sm);
         line-height: 16px;
     }
 
     .material-drag-preview__thumbnail {
         height: 80px;
         padding: 4px 8px;
-        border-radius: 6px;
-        background: #f8fafc;
+        border-radius: var(--border-radius-base);
+        background: var(--color-bg-secondary);
     }
 
     .material-drag-preview__fallback {
@@ -85,8 +85,8 @@ defineProps<{
         align-items: center;
         justify-content: center;
         height: 100%;
-        color: #2563eb;
-        font-size: 16px;
+        color: var(--color-info);
+        font-size: var(--font-size-lg);
     }
 
     .material-drag-preview__footer {
@@ -94,8 +94,8 @@ defineProps<{
         justify-content: space-between;
         gap: 8px;
         margin-top: 8px;
-        color: #64748b;
-        font-size: 10px;
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-sm);
         line-height: 16px;
     }
 }

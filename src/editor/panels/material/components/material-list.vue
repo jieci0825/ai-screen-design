@@ -42,17 +42,17 @@ const { handleDragStart, handleDragEnd } = useMaterialDrag()
     min-width: 0;
     padding: 16px 12px;
     overflow-y: auto;
-    background-color: var(--sidebar);
+    background-color: var(--color-bg-secondary);
 
-    &__title {
+    .material-list__title {
         display: flex;
         align-items: center;
         gap: 8px;
         margin: 0 0 12px;
         padding-bottom: 12px;
-        border-bottom: 1px solid var(--sidebar-border);
-        color: var(--sidebar-foreground);
-        font-size: 14px;
+        border-bottom: 1px solid var(--color-border-base);
+        color: var(--color-text-primary);
+        font-size: var(--font-size-base);
         font-weight: 600;
         line-height: 20px;
         letter-spacing: 0.02em;
@@ -64,33 +64,32 @@ const { handleDragStart, handleDragEnd } = useMaterialDrag()
             width: 3px;
             height: 14px;
             border-radius: 2px;
-            background-color: var(--sidebar-primary);
+            background-color: var(--color-primary);
         }
     }
 
-    &__item {
+    .material-list__item {
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 10px 12px;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        background-color: var(--card);
-        color: var(--card-foreground);
-        font-size: 13px;
+        border: 1px solid var(--color-border-base);
+        border-radius: var(--border-radius-base);
+        background-color: var(--color-bg-container);
+        color: var(--color-text-primary);
+        font-size: var(--font-size-base);
         line-height: 20px;
         overflow-wrap: anywhere;
         cursor: pointer;
+    }
+    .material-list__item + .material-list__item {
+        margin-top: 8px;
+    }
 
-        & + & {
-            margin-top: 8px;
-        }
-
-        &-icon {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-        }
+    .material-list__item-icon {
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
     }
 }
 </style>

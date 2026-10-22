@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+
 import type { MaterialCategory, MaterialCategoryType } from '@/materials'
 
 defineProps<{
@@ -26,10 +27,10 @@ const emit = defineEmits<{
             <span
                 ><Icon
                     :icon="c.icon"
-                    class="w-5 h-5"
+                    class="material-category-list__icon"
                 ></Icon
             ></span>
-            <span class="text-[13px]">{{ c.name }}</span>
+            <span class="material-category-list__label">{{ c.name }}</span>
         </button>
     </div>
 </template>
@@ -40,9 +41,9 @@ const emit = defineEmits<{
     height: 100%;
     padding: 8px;
     overflow-y: auto;
-    border-right: 1px solid var(--border);
+    border-right: 1px solid var(--color-border-base);
 
-    &__item {
+    .material-category-list__item {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -53,8 +54,8 @@ const emit = defineEmits<{
         margin-bottom: 6px;
         padding: 8px 4px;
         border: 1px solid transparent;
-        border-radius: 6px;
-        color: var(--muted-foreground);
+        border-radius: var(--border-radius-base);
+        color: var(--color-text-secondary);
         cursor: default;
         transition:
             color 150ms ease,
@@ -62,21 +63,29 @@ const emit = defineEmits<{
             border-color 150ms ease;
 
         &:hover {
-            color: var(--foreground);
-            background-color: var(--muted);
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-secondary);
         }
 
         &:focus-visible {
-            outline: 2px solid var(--ring);
+            outline: 2px solid var(--color-focus-ring);
             outline-offset: 2px;
         }
 
-        &#{&}--active {
-            color: var(--accent-foreground);
-            background-color: var(--accent);
-            border-color: var(--border);
+        &:where([aria-pressed='true']) {
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-secondary);
+            border-color: var(--color-border-base);
             font-weight: 600;
         }
+    }
+    .material-category-list__icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .material-category-list__label {
+        font-size: var(--font-size-sm);
     }
 }
 </style>

@@ -1,33 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { getMaterialsByCategory, getCategories, type MaterialCategoryType } from '@/materials'
 import CategoryList from './components/category-list.vue'
 import MaterialList from './components/material-list.vue'
+import { useMaterialPanel } from './hooks'
 
 defineOptions({ name: 'MaterialPanel' })
 
-// 当前分类类型
-const currentCategoryType = ref<MaterialCategoryType>('chart')
-// 所有分类
-const categories = getCategories()
-
-const selectCategory = (type: MaterialCategoryType) => {
-    currentCategoryType.value = type
-}
-
-const materials = computed(() => {
-    return getMaterialsByCategory(currentCategoryType.value)
-})
-
-const currentCategoryName = computed(() => categories.find((c) => c.type === currentCategoryType.value)?.name ?? '')
+const { categories, currentCategoryType, materials, currentCategoryName, handleSelectCategory } = useMaterialPanel()
 </script>
 
 <template>
-    <div class="material-panel flex h-full">
+    <div class="material-panel">
         <CategoryList
             :categories="categories"
             :current-category-type="currentCategoryType"
-            @select="selectCategory"
+            @select="handleSelectCategory"
         />
         <MaterialList
             :title="currentCategoryName"
@@ -35,3 +21,12 @@ const currentCategoryName = computed(() => categories.find((c) => c.type === cur
         />
     </div>
 </template>
+
+<style scoped lang="scss">
+.material-panel {
+    display: flex;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+</style>

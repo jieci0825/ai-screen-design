@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineOptions({ name: 'LayerPanel' })
+</script>
 
 <template>
     <div class="layer-panel">layer</div>

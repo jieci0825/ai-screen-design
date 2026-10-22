@@ -1,26 +1,21 @@
 <script setup lang="ts">
-import type { DialogContentEmits, DialogContentProps } from 'reka-ui'
-import type { HTMLAttributes } from 'vue'
 import { X } from '@lucide/vue'
 import { reactiveOmit } from '@vueuse/core'
 import { DialogClose, DialogContent, DialogPortal, useForwardPropsEmits } from 'reka-ui'
-import { cn } from '@/lib/utils'
+
 import DialogOverlay from './DialogOverlay.vue'
 
-defineOptions({
-    inheritAttrs: false,
-})
+import type { DialogContentEmits, DialogContentProps } from 'reka-ui'
+import type { HTMLAttributes } from 'vue'
+
+defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(
     defineProps<DialogContentProps & { class?: HTMLAttributes['class']; showCloseButton?: boolean }>(),
-    {
-        showCloseButton: true,
-    },
+    { showCloseButton: true },
 )
 const emits = defineEmits<DialogContentEmits>()
-
-const delegatedProps = reactiveOmit(props, 'class')
-
+const delegatedProps = reactiveOmit(props, 'class', 'showCloseButton')
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
 
@@ -30,23 +25,64 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         <DialogContent
             data-slot="dialog-content"
             v-bind="{ ...$attrs, ...forwarded }"
-            :class="
-                cn(
-                    'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg',
-                    props.class,
-                )
-            "
+            :class="['ui-dialog-content', props.class]"
         >
             <slot />
-
             <DialogClose
                 v-if="showCloseButton"
                 data-slot="dialog-close"
-                class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                class="ui-dialog-close-button"
             >
                 <X />
-                <span class="sr-only">Close</span>
+                <span class="ui-dialog-close-label">Close</span>
             </DialogClose>
         </DialogContent>
     </DialogPortal>
 </template>
+
+<style scoped lang="scss">
+@use './dialog-styles' as dialog;
+
+.ui-dialog-content {
+    @include dialog.content;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 50;
+    translate: -50% -50%;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    animation: ui-dialog-content-in 200ms ease-out;
+
+    &:where([data-state='closed']) {
+        animation: ui-dialog-content-out 200ms ease-in;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        animation-duration: 1ms;
+    }
+}
+
+@keyframes ui-dialog-content-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes ui-dialog-content-out {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+</style>
