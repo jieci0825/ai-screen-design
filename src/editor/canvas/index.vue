@@ -37,6 +37,7 @@ const {
                     v-for="node in nodes"
                     :key="node.id"
                     :style="getNodeStyle(node)"
+                    :data-node-id="node.id"
                     @mousedown="handleSelectNode($event, node)"
                 >
                     <Component

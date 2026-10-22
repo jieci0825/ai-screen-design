@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, shallowRef } from 'vue'
+import { computed, getCurrentInstance, nextTick, ref, shallowRef } from 'vue'
 
 import { createMaterialNode } from '@/materials'
 
@@ -9,6 +9,8 @@ import type { MaterialSchema } from '@/materials'
 
 /** 管理画布节点、选中状态及现有拖拽缩放协议。 */
 export function useCanvas(moveableRef: Readonly<ShallowRef<InstanceType<typeof Moveable> | null>>) {
+    const vm = getCurrentInstance()
+
     const nodes = ref<MaterialSchema[]>([])
 
     // 当前选中节点 id
@@ -44,6 +46,17 @@ export function useCanvas(moveableRef: Readonly<ShallowRef<InstanceType<typeof M
 
         const node = createMaterialNode(schema)
         nodes.value.push(node)
+
+        currentSelectNodeId.value = node.id
+        // 等待节点渲染完成之后，自动选中刚刚拖拽到画布中的元素
+        nextTick(() => {
+            // 为了避免这个属性节点 id 是在其他地方的，限制一下为当前组件根节点下查找
+            if (vm) {
+                currentSelectNodeElement.value = vm.proxy.$el.querySelector(`[data-node-id='${node.id}']`)
+            } else {
+                currentSelectNodeElement.value = document.querySelector(`[data-node-id='${node.id}']`)
+            }
+        })
     }
 
     /**
