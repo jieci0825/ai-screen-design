@@ -3,7 +3,16 @@
     <head>
         <meta charset="UTF-8" />
         <script>
-            document.documentElement.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches)
+            let theme = 'auto'
+            try {
+                theme = localStorage.getItem('screen-design-color-scheme') || 'auto'
+            } catch {
+                // 存储不可用时沿用系统主题。
+            }
+            document.documentElement.classList.toggle(
+                'dark',
+                theme === 'dark' || (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches),
+            )
         </script>
         <link
             rel="icon"

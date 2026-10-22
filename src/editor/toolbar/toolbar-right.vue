@@ -2,13 +2,23 @@
 import { storeToRefs } from 'pinia'
 import { Icon } from '@iconify/vue'
 
+import { useAppearance } from '@/hooks'
 import { useEditorStore } from '@/stores/editor'
 
+const { themeIcon, themeLabel, toggleTheme } = useAppearance()
 const { panelVisible } = storeToRefs(useEditorStore())
 </script>
 
 <template>
     <div class="toolbar-right__inner">
+        <button
+            type="button"
+            :aria-label="themeLabel"
+            :title="themeLabel"
+            @click="toggleTheme"
+        >
+            <Icon :icon="themeIcon" />
+        </button>
         <button
             type="button"
             aria-label="撤销"
