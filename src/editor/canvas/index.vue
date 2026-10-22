@@ -18,7 +18,7 @@ const {
     handleResize,
     getNodeStyle,
     handleCanvasMousedown,
-} = useCanvas(moveableRef)
+} = useCanvas(canvasRef, moveableRef)
 </script>
 
 <template>

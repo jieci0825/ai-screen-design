@@ -1,4 +1,5 @@
 import { computed, getCurrentInstance, nextTick, ref, shallowRef } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
 
 import { createMaterialNode } from '@/materials'
 
@@ -8,7 +9,10 @@ import type { ShallowRef } from 'vue'
 import type { MaterialSchema } from '@/materials'
 
 /** 管理画布节点、选中状态及现有拖拽缩放协议。 */
-export function useCanvas(moveableRef: Readonly<ShallowRef<InstanceType<typeof Moveable> | null>>) {
+export function useCanvas(
+    canvasRef: Readonly<ShallowRef<HTMLElement | null>>,
+    moveableRef: Readonly<ShallowRef<InstanceType<typeof Moveable> | null>>,
+) {
     const vm = getCurrentInstance()
 
     const nodes = ref<MaterialSchema[]>([])
@@ -21,6 +25,14 @@ export function useCanvas(moveableRef: Readonly<ShallowRef<InstanceType<typeof M
     })
     // 当前选中节点 dom 元素
     const currentSelectNodeElement = shallowRef<HTMLElement | null>(null)
+
+    // 侧栏动画和窗口缩放会改变画布原点，需在布局变化时同步选中框。
+    useResizeObserver(canvasRef, () => {
+        if (!currentSelectNodeElement.value) return
+
+        // 让 Moveable 重新测量选中节点的位置和尺寸，更新选中框的布局信息
+        moveableRef.value?.updateRect()
+    })
 
     /** 选中节点 */
     const handleSelectNode = (e: MouseEvent, node: MaterialSchema) => {
