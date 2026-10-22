@@ -1,7 +1,8 @@
-import { computed, getCurrentInstance, nextTick, ref, shallowRef } from 'vue'
+import { getCurrentInstance, nextTick, shallowRef } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 
 import { createMaterialNode } from '@/materials'
+import { useEditorStore } from '@/stores/editor'
 
 import type Moveable from 'vue3-moveable'
 import type { OnDrag, OnResize } from 'vue3-moveable'
@@ -15,14 +16,9 @@ export function useCanvas(
 ) {
     const vm = getCurrentInstance()
 
-    const nodes = ref<MaterialSchema[]>([])
+    const editorStore = useEditorStore()
+    const { addNode, selectNode, clearSelectNode } = editorStore
 
-    // 当前选中节点 id
-    const currentSelectNodeId = ref('')
-    // 当前选中节点
-    const currentSelectNode = computed(() => {
-        return nodes.value.find((node) => node.id === currentSelectNodeId.value)
-    })
     // 当前选中节点 dom 元素
     const currentSelectNodeElement = shallowRef<HTMLElement | null>(null)
 
@@ -37,7 +33,7 @@ export function useCanvas(
     /** 选中节点 */
     const handleSelectNode = (e: MouseEvent, node: MaterialSchema) => {
         currentSelectNodeElement.value = e.currentTarget as HTMLElement
-        currentSelectNodeId.value = node.id
+        selectNode(node.id)
 
         // 等待 Vue 将新选中的节点同步到 Moveable 的 target，再启动拖拽
         nextTick(() => {
@@ -57,9 +53,9 @@ export function useCanvas(
         schema.layout.y = e.offsetY - schema.layout.h / 2
 
         const node = createMaterialNode(schema)
-        nodes.value.push(node)
+        addNode(node)
 
-        currentSelectNodeId.value = node.id
+        selectNode(node.id)
         // 等待节点渲染完成之后，自动选中刚刚拖拽到画布中的元素
         nextTick(() => {
             // 为了避免这个属性节点 id 是在其他地方的，限制一下为当前组件根节点下查找
@@ -75,7 +71,7 @@ export function useCanvas(
      * 拖拽移动
      */
     const handleDrag = ({ target, transform, translate }: OnDrag) => {
-        const node = currentSelectNode.value
+        const node = editorStore.currentSelectNode
         if (!node) return
 
         // ***** 使用的是 transform, 则后续的所有坐标数据都要基于此获取和使用 *****
@@ -92,7 +88,7 @@ export function useCanvas(
      * 拖拽缩放（调整宽高）
      */
     const handleResize = ({ target, width, height, drag }: OnResize) => {
-        const node = currentSelectNode.value
+        const node = editorStore.currentSelectNode
         if (!node) return
 
         target.style.width = `${width}px`
@@ -122,12 +118,12 @@ export function useCanvas(
     /** 点击画布空白处时清除节点选择。 */
     const handleCanvasMousedown = () => {
         // 取消节点的选中效果
-        currentSelectNodeId.value = ''
         currentSelectNodeElement.value = null
+        clearSelectNode()
     }
 
     return {
-        nodes,
+        nodes: editorStore.nodes,
         currentSelectNodeElement,
         handleSelectNode,
         handleDrop,

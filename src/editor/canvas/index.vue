@@ -9,6 +9,7 @@ defineOptions({ name: 'EditorCanvas' })
 
 const canvasRef = useTemplateRef<HTMLElement>('canvas-ref')
 const moveableRef = useTemplateRef<InstanceType<typeof Moveable>>('moveable-ref')
+
 const {
     nodes,
     currentSelectNodeElement,
